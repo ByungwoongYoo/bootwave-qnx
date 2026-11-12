@@ -1,0 +1,8 @@
+# BootWave BSP/SLM bridge; merge only into a reviewed BSP.
+# Prerequisite: slogger2 running; declared binaries, shell and config installed.
+[+script] .bootwave = {
+    /sbin/devc-ser8250 -F &
+    /sbin/devb-ram
+    /sbin/screen
+    /sbin/slm -r stop /etc/bootwave.slm.xml &
+}

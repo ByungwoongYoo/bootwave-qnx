@@ -1,0 +1,115 @@
+{
+  "qnx_version": "8.0",
+  "parallel_startup_permitted": true,
+  "scenario": "Synthetic declared BSP configuration; not a supplied production target",
+  "services": [
+    {
+      "id": "serial",
+      "launch_mode": "background",
+      "parallel_safe": true,
+      "ready_after_s": 0.8,
+      "requires": [],
+      "readiness": {
+        "kind": "path",
+        "value": "/dev/ser1"
+      },
+      "launch_return_s": 0.02,
+      "executable": "/sbin/devc-ser8250",
+      "args": [
+        "-F"
+      ],
+      "phase": "bsp",
+      "timeout_s": 5.0
+    },
+    {
+      "id": "storage",
+      "launch_mode": "self_daemon",
+      "parallel_safe": true,
+      "ready_after_s": 1.2,
+      "requires": [],
+      "readiness": {
+        "kind": "path",
+        "value": "/dev/ram0"
+      },
+      "launch_return_s": 0.02,
+      "executable": "/sbin/devb-ram",
+      "args": [],
+      "phase": "bsp",
+      "timeout_s": 5.0
+    },
+    {
+      "id": "screen",
+      "launch_mode": "self_daemon",
+      "parallel_safe": true,
+      "ready_after_s": 0.7,
+      "requires": [],
+      "readiness": {
+        "kind": "path",
+        "value": "/dev/screen"
+      },
+      "launch_return_s": 0.02,
+      "executable": "/sbin/screen",
+      "args": [],
+      "phase": "bsp",
+      "timeout_s": 5.0
+    },
+    {
+      "id": "splash",
+      "launch_mode": "foreground",
+      "parallel_safe": true,
+      "ready_after_s": 0.4,
+      "requires": [
+        "screen"
+      ],
+      "readiness": {
+        "kind": "path",
+        "value": "/dev/demo-splash-ready"
+      },
+      "launch_return_s": 0.02,
+      "executable": "/usr/bin/demo-splash",
+      "args": [],
+      "phase": "slm",
+      "timeout_s": 5.0
+    },
+    {
+      "id": "logger",
+      "launch_mode": "foreground",
+      "parallel_safe": true,
+      "ready_after_s": 0.3,
+      "requires": [
+        "serial",
+        "storage"
+      ],
+      "readiness": {
+        "kind": "path",
+        "value": "/dev/demo-logger-ready"
+      },
+      "launch_return_s": 0.02,
+      "executable": "/usr/bin/demo-file-logger",
+      "args": [],
+      "phase": "slm",
+      "timeout_s": 5.0
+    }
+  ],
+  "runtime": {
+    "slm": "/sbin/slm",
+    "sh": "/bin/sh",
+    "waitfor": "/bin/waitfor",
+    "ready_script": "/etc/bootwave-ready.sh",
+    "slm_config": "/etc/bootwave.slm.xml",
+    "slogger2_already_running": true
+  },
+  "first_useful_application": "splash",
+  "manual_actions": [
+    "launch:serial",
+    "launch:storage",
+    "launch:screen",
+    "wait:screen",
+    "launch:splash",
+    "wait:splash",
+    "wait:serial",
+    "wait:storage",
+    "launch:logger",
+    "wait:logger"
+  ]
+}

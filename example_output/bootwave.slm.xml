@@ -1,0 +1,49 @@
+<SLM:system>
+  <SLM:component name="bw_ready_serial">
+    <SLM:command>/bin/sh</SLM:command>
+    <SLM:args>/etc/bootwave-ready.sh /dev/ser1 5.0</SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="exits" polltime="100:6000">0</SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="bw_ready_storage">
+    <SLM:command>/bin/sh</SLM:command>
+    <SLM:args>/etc/bootwave-ready.sh /dev/ram0 5.0</SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="exits" polltime="100:6000">0</SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="bw_ready_screen">
+    <SLM:command>/bin/sh</SLM:command>
+    <SLM:args>/etc/bootwave-ready.sh /dev/screen 5.0</SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="exits" polltime="100:6000">0</SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="splash">
+    <SLM:depend state="session">bw_ready_screen</SLM:depend>
+    <SLM:command>/usr/bin/demo-splash</SLM:command>
+    <SLM:args></SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="none"></SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="bw_ready_splash">
+    <SLM:depend state="session">splash</SLM:depend>
+    <SLM:command>/bin/sh</SLM:command>
+    <SLM:args>/etc/bootwave-ready.sh /dev/demo-splash-ready 5.0</SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="exits" polltime="100:6000">0</SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="logger">
+    <SLM:depend state="session">bw_ready_serial</SLM:depend>
+    <SLM:depend state="session">bw_ready_storage</SLM:depend>
+    <SLM:command>/usr/bin/demo-file-logger</SLM:command>
+    <SLM:args></SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="none"></SLM:waitfor>
+  </SLM:component>
+  <SLM:component name="bw_ready_logger">
+    <SLM:depend state="session">logger</SLM:depend>
+    <SLM:command>/bin/sh</SLM:command>
+    <SLM:args>/etc/bootwave-ready.sh /dev/demo-logger-ready 5.0</SLM:args>
+    <SLM:repair>stop</SLM:repair>
+    <SLM:waitfor wait="exits" polltime="100:6000">0</SLM:waitfor>
+  </SLM:component>
+</SLM:system>

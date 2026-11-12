@@ -1,0 +1,146 @@
+{
+  "qnx_version": "8.0",
+  "kind": "BSP/SLM bridge compiler; native SLM supplies launch/monitor semantics",
+  "required_target_files": [
+    "/bin/sh",
+    "/bin/waitfor",
+    "/etc/bootwave-ready.sh",
+    "/etc/bootwave.slm.xml",
+    "/sbin/devb-ram",
+    "/sbin/devc-ser8250",
+    "/sbin/screen",
+    "/sbin/slm",
+    "/usr/bin/demo-file-logger",
+    "/usr/bin/demo-splash"
+  ],
+  "prerequisites": [
+    "slogger2 already running",
+    "fresh, meaningful readiness paths",
+    "reviewed BSP and available shared-library dependencies"
+  ],
+  "replay": {
+    "scope": "Virtual-time replay of emitted BSP lines, SLM XML and shell-gate contract; no target commands executed",
+    "slm_start_s": 0.06,
+    "starts_s": {
+      "serial": 0.0,
+      "storage": 0.02,
+      "screen": 0.04,
+      "splash": 0.74,
+      "logger": 1.22
+    },
+    "service_ready_s": {
+      "serial": 0.8,
+      "storage": 1.22,
+      "screen": 0.74,
+      "splash": 1.1400000000000001,
+      "logger": 1.52
+    },
+    "component_states": {
+      "bw_ready_serial": "ready",
+      "bw_ready_storage": "ready",
+      "bw_ready_screen": "ready",
+      "splash": "ready",
+      "bw_ready_splash": "ready",
+      "logger": "ready",
+      "bw_ready_logger": "ready"
+    },
+    "total_ready_s": 1.52,
+    "first_useful_ready_s": 1.1400000000000001,
+    "trace": [
+      {
+        "kind": "bsp_launch",
+        "id": "serial",
+        "at_s": 0.0
+      },
+      {
+        "kind": "bsp_launch",
+        "id": "storage",
+        "at_s": 0.02
+      },
+      {
+        "kind": "bsp_launch",
+        "id": "screen",
+        "at_s": 0.04
+      },
+      {
+        "kind": "slm_launch",
+        "id": "bw_ready_screen",
+        "at_s": 0.06
+      },
+      {
+        "kind": "slm_launch",
+        "id": "bw_ready_serial",
+        "at_s": 0.06
+      },
+      {
+        "kind": "slm_launch",
+        "id": "bw_ready_storage",
+        "at_s": 0.06
+      },
+      {
+        "kind": "ready",
+        "id": "bw_ready_screen",
+        "at_s": 0.74
+      },
+      {
+        "kind": "slm_launch",
+        "id": "splash",
+        "at_s": 0.74
+      },
+      {
+        "kind": "slm_launch",
+        "id": "bw_ready_splash",
+        "at_s": 0.74
+      },
+      {
+        "kind": "ready",
+        "id": "bw_ready_serial",
+        "at_s": 0.8
+      },
+      {
+        "kind": "ready",
+        "id": "bw_ready_splash",
+        "at_s": 1.1400000000000001
+      },
+      {
+        "kind": "ready",
+        "id": "bw_ready_storage",
+        "at_s": 1.22
+      },
+      {
+        "kind": "slm_launch",
+        "id": "logger",
+        "at_s": 1.22
+      },
+      {
+        "kind": "slm_launch",
+        "id": "bw_ready_logger",
+        "at_s": 1.22
+      },
+      {
+        "kind": "ready",
+        "id": "bw_ready_logger",
+        "at_s": 1.52
+      }
+    ]
+  },
+  "manual_reference": {
+    "scope": "Declared manual blocking-order model, not a target measurement",
+    "total_ready_s": 1.52,
+    "first_useful_ready_s": 1.1400000000000001,
+    "starts_s": {
+      "serial": 0.0,
+      "storage": 0.02,
+      "screen": 0.04,
+      "splash": 0.74,
+      "logger": 1.22
+    },
+    "ready_s": {
+      "screen": 0.74,
+      "splash": 1.1400000000000001,
+      "serial": 1.1400000000000001,
+      "storage": 1.22,
+      "logger": 1.52
+    }
+  }
+}
